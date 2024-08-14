@@ -84,15 +84,27 @@ WSGI_APPLICATION = 'food_delivery_backend.wsgi.application'
 import dj_database_url
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'sql8725892',       # Name of your database
+        'USER': 'sql8725892',           # MySQL username
+        'PASSWORD': 'YXUdJW4h2Z',   # MySQL password
+        'HOST': 'sql8.freesqldatabase.com',        # Or the IP address of your MySQL server
+        'PORT': '3306',             # Default MySQL port
     }
 }
 
-DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/fdms')
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+#DATABASES['default'] = dj_database_url.parse('mysql://root@localhost/fdms')
+# DATABASES['default'] = dj_database_url.parse('sql8.freesqldatabase.com/sql8725892')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
