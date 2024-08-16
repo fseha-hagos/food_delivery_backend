@@ -30,9 +30,9 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ['order_status']
     list_display = ['user_id', 'order_date' ,'delivery_address','total_ammount','order_status']
 class MenuAdmin(admin.ModelAdmin):
-    list_editable = ['catagory_id','item_name','price','availability']
+
     list_display = ['catagory_id', 'item_name','price','availability']
-    list_display_links = None
+    list_display_links = ['item_name']
     def __str__(self):
         return self.item_name
 class OrderItemsAdmin(admin.ModelAdmin):

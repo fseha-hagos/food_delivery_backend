@@ -3,6 +3,9 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 from authentication.models import User
 
+import random
+import string
+
 # Create your models here.
 class Food(models.Model):
     name = models.CharField(max_length = 255)
@@ -40,9 +43,20 @@ class Catagory(models.Model):
     catagory_name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
 
+
+def generate_unique_code():
+    length = 6
+    while True :
+        menu_id = "".join(random.choices(string.ascii_uppercase, k=length))
+        if(Menu.objects.filter(menu_id = menu_id).count == 0):
+            break
+    return menu_id
+
 class Menu(models.Model):
+    menu_id = models.CharField(max_length=8, default="", unique=True)
     catagory_id = models.ForeignKey(Catagory, on_delete=models.SET_NULL, null=True)
     item_name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="food-delivery/user_images/menu-images", default="default.jpg")
     description =models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     availability = models.BooleanField()
