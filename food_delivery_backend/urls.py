@@ -26,5 +26,9 @@ urlpatterns = [
     url(r'^food$',views.foodApi),
     url(r'^food$',views.foodApi),
     url(r'^food/([0-9]+)$',views.foodApi),
-   
+
+    url(r'^menu$',views.menuApi),
+    url(r'^menu$',views.menuApi),
+    url(r'^menu/([0-9]+)$',views.menuApi),
+
 ]
