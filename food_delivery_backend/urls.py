@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path as url
 from foodapp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -57,5 +59,6 @@ urlpatterns = [
     url(r'^review$',views.reviewApi),
     url(r'^review$',views.reviewApi),
     url(r'^review/([0-9]+)$',views.reviewApi),
+    
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

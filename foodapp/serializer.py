@@ -27,6 +27,10 @@ class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
         fields = '__all__'
+    def get_photo_url(self,obj):
+        request=self.context.get('request')
+        photo_url = obj.fingerprint.url
+        return request.build_absolute_uri(photo_url)
 class OrderItemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order_items
@@ -35,7 +39,7 @@ class OrderItemsSerializer(serializers.ModelSerializer):
 class CatagorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Catagory
-        fields = '__all__'
+        fields = ('catagory_name', 'description')
 class DeliveryStaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = Delivery_staff
