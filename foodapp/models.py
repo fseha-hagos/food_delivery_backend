@@ -3,9 +3,12 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 from authentication.models import User
 from django.utils import timezone
-
+from django.contrib import admin
+from django.utils.html import format_html
 import random
 import string
+import os
+import uuid
 
 # Create your models here.
 class Food(models.Model):
@@ -52,8 +55,17 @@ class Order(models.Model):
     
     def __str__(self):
         return self.order_id
+    # def order_items(self):
+    #     order_items = Order_items.objects.filter(order_id = self.order_id)
+    @admin.display()
     def order_items(self):
-        order_items = Order_items.objects.filter(order_id = self.order_id)
+        items = Order_items.objects.filter(order_id = self.id)
+        it= []
+        for i in items :
+            it.append(i) 
+        #     return i
+        
+        return  it
 
 
 
@@ -73,13 +85,26 @@ def generate_unique_code():
             if(Menu.objects.filter(menu_id = menu_id).count() == 0):
                 break
         return menu_id
+def user_directory_path(instance, filename):
+    # Get Current Date
+    todays_date = timezone.now()
+
+    path = "item-images/".format(todays_date.year, todays_date.month, todays_date.day)
+    extension = "." + filename.split('.')[-1]
+    stringId = str(uuid.uuid4())
+    randInt = str(random.randint(10, 99))
+
+    # Filename reformat
+    filename_reformat = stringId + randInt + extension
+
+    return os.path.join(path, filename_reformat)
 class Menu(models.Model):
    
     menu_id = models.CharField(max_length=8, default=generate_unique_code, unique=True)
     #catagory_id = models.OneToOneField(Catagory, on_delete=models.SET_NULL, null=True)
     catagory_id = models.ForeignKey(Catagory, on_delete=models.SET_NULL, null=True)
     item_name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="item-images", default="default.jpg")
+    image = models.ImageField(upload_to=user_directory_path, default="default.jpg")
     description =models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     availability = models.BooleanField()
@@ -94,6 +119,9 @@ class Order_items(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True) 
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.menu_id)
 
 class Delivery(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)

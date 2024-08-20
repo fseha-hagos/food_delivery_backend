@@ -29,11 +29,10 @@ class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ['user_id','rating','review_date','comment']
     list_display = ['user_id', 'rating','review_date','comment']
     
-    
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = ['order_id', 'user_id', 'order_date' ,'delivery_address','total_ammount',]
+    #readonly_fields = ['order_id', 'user_id', 'order_date' ,'delivery_address','total_ammount',]
     list_editable = ['order_status']
-    list_display = ['order_id','user_id','order_date','delivery_address','total_ammount', 'order_status',]
+    list_display = ['order_id','user_id','order_date','delivery_address','total_ammount', 'order_status', 'order_items']
     
 
 class MenuAdmin(admin.ModelAdmin):
@@ -41,8 +40,9 @@ class MenuAdmin(admin.ModelAdmin):
     list_display = ['id','item_name','menu_id','catagory_id','price','availability']
     list_display_links = ['item_name']
 
+
 class OrderItemsAdmin(admin.ModelAdmin):
-    readonly_fields = ['menu_id', 'order_id','quantity','price']
+    #readonly_fields = ['menu_id', 'order_id','quantity','price']
     list_display = ['menu_id', 'order_id','quantity','price']
     
 class DeliveryStaffAdmin(admin.ModelAdmin):
