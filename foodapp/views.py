@@ -108,8 +108,8 @@ def orderApi(request,id=0):
         order_data=JSONParser().parse(request)
         order_serializer=OrderSerializer(data=order_data)
         if order_serializer.is_valid():
-            order_serializer.save()
-            return JsonResponse("Added Successfully",safe=False)
+            saved = order_serializer.save()
+            return JsonResponse(order_serializer.data,safe=False)
         return JsonResponse("Failed to Add",safe=False)
     elif request.method=='PUT':
         order_data=JSONParser().parse(request)

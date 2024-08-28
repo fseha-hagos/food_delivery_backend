@@ -2,7 +2,7 @@ from django.contrib import admin
 from authentication.models import User,Profile
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'email']
+    list_display = ['id','user_id','username', 'email']
 
 
 class ProfileAdmin(admin.ModelAdmin):
