@@ -30,7 +30,15 @@ class Food(models.Model):
 #     USERNAME_FIELD = 'email'
 #     REQUIRED_FIELDS = ['username']
 
+def delivery_staff_unique_id():
+        length = 6
+        while True :
+            staff_id = "".join(random.choices(string.ascii_uppercase, k=length))
+            if(Delivery_staff.objects.filter(staff_id = staff_id).count() == 0):
+                break
+        return staff_id
 class Delivery_staff(models.Model):
+    staff_id = models.CharField(primary_key=True, default=delivery_staff_unique_id, max_length=50, editable=False)
     staff_name = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=50)
 
@@ -41,12 +49,15 @@ class Delivery_staff(models.Model):
 def generate_unique_code_order():
         length = 8
         while True :
-            order_id = "".join(random.choices(string.ascii_uppercase, k=length))
+            currentTime = timezone.now
+            order_id = str(random.randrange(1000000000, 9999999999))
+            # order_id = str(currentTime).join(random.choices(string.ascii_uppercase, k=length))
             if(Order.objects.filter(order_id = order_id).count() == 0):
                 break
         return order_id
+
 class Order(models.Model):
-    order_id = models.CharField(max_length=10, default=generate_unique_code_order, unique=True)
+    order_id = models.CharField(primary_key=True, default=generate_unique_code_order, max_length=20)
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     order_date = models.DateTimeField(default=timezone.now)
     delivery_address = models.CharField(max_length=200)
@@ -54,12 +65,12 @@ class Order(models.Model):
     order_status = models.CharField(max_length=100)
     
     def __str__(self):
-        return self.order_id
+        return str(self.order_id)
     # def order_items(self):
     #     order_items = Order_items.objects.filter(order_id = self.order_id)
     @admin.display()
     def order_items(self):
-        items = Order_items.objects.filter(order_id = self.id)
+        items = Order_items.objects.filter(order_id = self.order_id)
         it= []
         for i in items :
             it.append(i) 
@@ -70,7 +81,8 @@ class Order(models.Model):
 
 
 class Catagory(models.Model):
-    catagory_name = models.CharField(max_length=100)
+    catagory_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
+    catagory_name = models.CharField(unique=True, max_length=100)
     description = models.TextField(max_length=1000)
     
     def __str__(self):
@@ -100,10 +112,10 @@ def user_directory_path(instance, filename):
     return os.path.join(path, filename_reformat)
 class Menu(models.Model):
    
-    menu_id = models.CharField(max_length=8, default=generate_unique_code, unique=True)
+    menu_id = models.CharField( primary_key=True,max_length=8, default=generate_unique_code, unique=True, editable=False)
     #catagory_id = models.OneToOneField(Catagory, on_delete=models.SET_NULL, null=True)
     catagory_id = models.ForeignKey(Catagory, on_delete=models.SET_NULL, null=True)
-    item_name = models.CharField(max_length=100)
+    item_name = models.CharField(max_length=100, unique=True)
     image = models.ImageField(upload_to=user_directory_path, default="default.jpg")
     description =models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
@@ -115,6 +127,7 @@ class Menu(models.Model):
     
 
 class Order_items(models.Model):
+    order_item_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     menu_id = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True)   
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True) 
     quantity = models.IntegerField()
@@ -124,19 +137,33 @@ class Order_items(models.Model):
         return str(self.menu_id)
 
 class Delivery(models.Model):
+    delivery_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     staff_id = models.ForeignKey(Delivery_staff, on_delete=models.SET_NULL, null=True)
     delivery_status = models.CharField(max_length=100)
     delivery_time = models.DateTimeField(default=timezone.now)
 
+    def __str__ (self):
+        return str(self.delivery_status)
+
+
+
 class Payment(models.Model):
-    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
-    payment_date = models.DateTimeField(default=timezone.now)
+    payment_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
+    payment_date = models.DateTimeField(default=timezone.now, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     payment_method = models.CharField(max_length=100)
 
+    def __str__(self):
+        return str(self.payment_id)
+
 class Review(models.Model):
+    review_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     rating = models.IntegerField()
     comment = models.TextField(max_length=1000)
     review_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return str(self.rating)

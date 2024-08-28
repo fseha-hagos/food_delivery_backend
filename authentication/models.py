@@ -1,9 +1,13 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
+import uuid 
 
 
 class User(AbstractUser):
+   
+    id = models.BigAutoField(auto_created=True, primary_key=True,serialize=False, verbose_name='ID')
+    user_id = models.UUIDField( unique=False ,default=uuid.uuid4, editable=False )
     username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
 
