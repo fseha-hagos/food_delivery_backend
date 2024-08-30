@@ -130,7 +130,7 @@ class Order_items(models.Model):
     order_item_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     menu_id = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True)   
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True) 
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1, null=True)
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
