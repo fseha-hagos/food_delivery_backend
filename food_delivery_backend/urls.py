@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 
 
+admin.site.site_header = "food delivery admin"
 urlpatterns = [
     path('admin/', admin.site.urls),
     url('authentication/', include('authentication.urls')),

@@ -57,12 +57,17 @@ def generate_unique_code_order():
         return order_id
 
 class Order(models.Model):
+    class DeliveryStatusChoice(models.TextChoices):
+        status1 =  'R0', 'Pending'
+        status2 =  'R1','On Delivery'
+        status3 =  'R2','Delivered'
     order_id = models.CharField(primary_key=True, default=generate_unique_code_order, max_length=20)
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     order_date = models.DateTimeField(default=timezone.now)
     delivery_address = models.CharField(max_length=200)
     total_ammount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    order_status = models.CharField(max_length=100)
+    order_status = models.CharField(max_length=2, choices=DeliveryStatusChoice.choices , default=DeliveryStatusChoice.status1)
+  
     
     def __str__(self):
         return str(self.order_id)
@@ -133,14 +138,20 @@ class Order_items(models.Model):
     quantity = models.IntegerField(default=1, null=True)
     price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 
+    
+
     def __str__(self):
         return str(self.menu_id)
 
 class Delivery(models.Model):
+    class DeliveryStatusChoice(models.TextChoices):
+        status1 =  'R0', 'Pending'
+        status2 =  'R1','On Delivery'
+        status3 =  'R2','Delivered'
     delivery_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     staff_id = models.ForeignKey(Delivery_staff, on_delete=models.SET_NULL, null=True)
-    delivery_status = models.CharField(max_length=100)
+    delivery_status = models.CharField(max_length=2, choices=DeliveryStatusChoice.choices, default=DeliveryStatusChoice.status1)
     delivery_time = models.DateTimeField(default=timezone.now)
 
     def __str__ (self):
@@ -149,11 +160,13 @@ class Delivery(models.Model):
 
 
 class Payment(models.Model):
+       
     payment_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
     payment_date = models.DateTimeField(default=timezone.now, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     payment_method = models.CharField(max_length=100)
+    payment_varified = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.payment_id)
