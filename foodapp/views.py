@@ -5,6 +5,8 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from foodapp.serializer import FoodSerializer, MenuSerializer, CatagorySerializer, DeliveryStaffSerializer, OrderSerializer, OrderItemsSerializer, DeliverySerializer, PaymentSerializer, ReviewSerializer
 from foodapp.models import Food, Menu, Catagory, Delivery_staff, Order, Order_items, Delivery, Payment, Review
+import requests
+import json
 
 
 @csrf_exempt
@@ -234,3 +236,48 @@ def paymentApi(request,id=0):
         payment.delete()
         return JsonResponse("Deleted Successfully",safe=False)
     
+
+@csrf_exempt
+def payApi(request,id=0):
+
+    if request.method=='GET':
+        # payment_data=JSONParser().parse(request)
+       
+    
+        url = "https://api.chapa.co/v1/transaction/verify/chewatatest-6669"
+        payload = ''
+        headers = {
+            'Authorization': 'Bearer CHAPUBK_TEST-8Gv64cU42Nx6imKUrJTTfX1fAWID7Mrz'
+        }
+
+        response = requests.get(url, headers=headers, data=payload)
+        data = response.text
+        print(data)
+        return JsonResponse(data,safe=False)
+        
+        # url = "https://api.chapa.co/v1/transaction/initialize"
+        # payload = {
+        # "amount": "100",
+        # "currency": "ETB",
+        # "email": "fsehahagos23@gmail.com",
+        # "first_name": "fish",
+        # "last_name": "hagos",
+        # "phone_number": "0948491265",
+        # "tx_ref": "chewatatest-6669",
+        # "callback_url": "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
+        # "return_url": "https://www.google.com/",
+        # "customization": {
+        # "title": "Payment for my favourite merchant",
+        # "description": "I love online payments"
+        # }
+        # }
+        # headers = {
+        # 'Authorization': 'Bearer CHAPUBK_TEST-8Gv64cU42Nx6imKUrJTTfX1fAWID7Mrz',
+        # 'Content-Type': 'application/json'
+        # }
+        
+        # response = requests.post(url, json=payload, headers=headers)
+        # print(response.text)
+        # return JsonResponse(response.text,safe=False)
+        # # data = response.text
+        # print(response)
