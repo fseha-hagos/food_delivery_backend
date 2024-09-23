@@ -34,6 +34,7 @@ class OrderAdmin(admin.ModelAdmin):
     # readonly_fields = ['order_id', 'user_id', 'order_date' ,'delivery_address','total_ammount',]
     list_editable = ['order_status']
     list_display = ['order_id','user_id','order_date','delivery_address','total_ammount', 'order_status', 'order_items']
+    list_filter = ['order_id','order_date','user_id','order_status','order_status']
     
 
 class MenuAdmin(admin.ModelAdmin):
