@@ -12,6 +12,7 @@ from foodapp.models import Payment,Review,Order,Menu,Catagory,Order_items,Delive
 class PaymentAdmin(admin.ModelAdmin):
     readonly_fields = ['order_id', 'payment_date', 'amount','payment_method']
     list_display = ['payment_id','order_id', 'payment_date' ,'amount','payment_method']
+    list_filter = ['order_id','payment_date','payment_method']
     
 class CatagoryAdmin(admin.ModelAdmin):
     list_display = ['catagory_id','catagory_name']
@@ -33,6 +34,7 @@ class OrderAdmin(admin.ModelAdmin):
     # readonly_fields = ['order_id', 'user_id', 'order_date' ,'delivery_address','total_ammount',]
     list_editable = ['order_status']
     list_display = ['order_id','user_id','order_date','delivery_address','total_ammount', 'order_status', 'order_items']
+    list_filter = ['order_id','order_date','user_id','order_status','order_status']
     
 
 class MenuAdmin(admin.ModelAdmin):
@@ -44,6 +46,8 @@ class MenuAdmin(admin.ModelAdmin):
 class OrderItemsAdmin(admin.ModelAdmin):
     #readonly_fields = ['menu_id', 'order_id','quantity','price']
     list_display = ['order_item_id','menu_id', 'order_id','quantity','price']
+    list_filter = ['order_id',]
+    search_fields = ['order_item_id']
     
 class DeliveryStaffAdmin(admin.ModelAdmin):
     #list_editable = ['staff_name','contact_number']

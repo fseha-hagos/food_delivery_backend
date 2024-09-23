@@ -57,6 +57,10 @@ urlpatterns = [
     url(r'^payment$',views.paymentApi),
     url(r'^payment/([0-9]+)$',views.paymentApi),
 
+    url(r'^pay$',views.payApi),
+    url(r'^pay$',views.payApi),
+    url(r'^pay/([0-9]+)$',views.payApi),
+
     url(r'^review$',views.reviewApi),
     url(r'^review$',views.reviewApi),
     url(r'^review/([0-9]+)$',views.reviewApi),
