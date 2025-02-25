@@ -1,4 +1,4 @@
-# Food Delivery Application
+# 🍔 Food Delivery Backend Application 🚚
 
 ## Description
 This project is a food delivery application built using Django. It includes features for managing food items, orders, payments, and user reviews.
@@ -30,7 +30,7 @@ To set up the project locally, follow these steps:
    python manage.py runserver
    ```
 
-## Usage
+## 🚀 Usage
 Access the API endpoints at `http://localhost:8000/`.
 
 ## API Endpoints
@@ -86,7 +86,7 @@ Access the API endpoints at `http://localhost:8000/`.
   - `PUT /review/<id>`: Update a review.
   - `DELETE /review/<id>`: Delete a review.
 
-## Models
+## 🌟Models
 - **Food**: Represents food items with attributes like name, address, and fee.
 - **Delivery Staff**: Represents delivery staff with unique IDs and contact information.
 - **Order**: Represents customer orders, including delivery status and total amount.
@@ -94,8 +94,5 @@ Access the API endpoints at `http://localhost:8000/`.
 - **Payment**: Represents payment transactions associated with orders.
 - **Review**: Represents customer reviews for the food delivery service.
 
-## Contributing
+## 🤝 Contributing
 Contributions are welcome! Please submit a pull request or open an issue for any suggestions or improvements.
-
-## License
-This project is licensed under the MIT License.
