@@ -71,17 +71,9 @@ class Order(models.Model):
     
     def __str__(self):
         return str(self.order_id)
-    # def order_items(self):
-    #     order_items = Order_items.objects.filter(order_id = self.order_id)
-    @admin.display()
     def order_items(self):
-        items = Order_items.objects.filter(order_id = self.order_id)
-        it= []
-        for i in items :
-            it.append(i) 
-        #     return i
-        
-        return  it
+        order_items = Order_items.objects.filter(order_id = self.order_id)
+    
 
 
 
@@ -174,7 +166,9 @@ class Payment(models.Model):
 class Review(models.Model):
     review_id = models.BigAutoField(auto_created=True, primary_key=True, serialize=False)
     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    rating = models.IntegerField()
+    name = models.CharField(max_length=100,null=True)
+    email = models.EmailField(null=True)
+    rating = models.IntegerField(default=4)
     comment = models.TextField(max_length=1000)
     review_date = models.DateTimeField(default=timezone.now)
 

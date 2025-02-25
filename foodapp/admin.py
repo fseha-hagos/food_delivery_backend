@@ -42,6 +42,7 @@ class OrderAdmin(admin.ModelAdmin):
     
 
 class MenuAdmin(admin.ModelAdmin):
+   
     readonly_fields = ['menu_id']
     list_display = ['item_name','menu_id','catagory_id','price','availability']
     list_display_links = ['item_name']

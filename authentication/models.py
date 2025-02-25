@@ -5,11 +5,16 @@ import uuid
 
 
 class User(AbstractUser):
-   
+    class UsertypeChoice(models.IntegerChoices):
+        type1 =  1 , 'admin'
+        type2 =  2 , 'cashier'
+        type3 =  3 , 'delivery man'
+        type4 =  4 , 'customer'
     id = models.BigAutoField(auto_created=True, primary_key=True,serialize=False, verbose_name='ID')
     user_id = models.UUIDField( unique=False ,default=uuid.uuid4, editable=False )
     username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
+    user_type = models.IntegerField(choices=UsertypeChoice.choices, default=UsertypeChoice.type4)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -19,11 +24,13 @@ class User(AbstractUser):
         profile = Profile.objects.get(user=self)
 
 class Profile(models.Model):
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=1000)
     bio = models.CharField(max_length=100)
     image = models.ImageField(upload_to="food-deivery/user_images", default="default.jpg")
     verified = models.BooleanField(default=False)
+    
 
 
 def create_user_profile(sender, instance, created, **kwargs):
