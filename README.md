@@ -4,19 +4,19 @@
 This project is a food delivery application built using Django. It includes features for managing food items, orders, payments, and user reviews.
 
 🛠️ Tech Stack
-**Backend Framework:**
+- **Backend Framework:**
    - Django (Python)
    - Django REST Framework (for building APIs)
-**Database:**
+- **Database:**
    - SQLite (default for development)
    - PostgreSQL (recommended for production)
-**Authentication:**
+- **Authentication:**
    - Django's built-in authentication system
    - Token-based authentication (optional)
-**Other Tools:**
+- **Other Tools:**
    - Django Admin (for backend management)
    - Django REST Framework (for API development)
-**Python (v3.8 or higher)**
+- **Python (v3.8 or higher)**
 
 ## Installation
 To set up the project locally, follow these steps:
